@@ -1,15 +1,14 @@
 import * as React from 'react';
-import './App.css';
-import { Search } from './Search'
-import TodoListCon from './TodoListCon'
+import Main from './screens/Main'
 
 class App extends React.Component {
   public render() {
     return (
-      <div className="App">
-        <Search />
-        <TodoListCon />
-      </div>
+      <>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+      <Main />
+      </>
     );
   }
 }

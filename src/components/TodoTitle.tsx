@@ -1,3 +1,4 @@
+import Typography from '@material-ui/core/Typography';
 import * as React from 'react';
 
 interface IProps {
@@ -6,7 +7,9 @@ interface IProps {
 
 const TodoTitle = (props: IProps) => {
     return (
-        <div>{props.title}</div>
+        <Typography variant="h3" gutterBottom={true}>
+            {props.title}
+        </Typography>
     )
 }
 

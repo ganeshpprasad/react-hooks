@@ -1,19 +1,28 @@
 import { Checkbox, TextField } from '@material-ui/core';
 import * as React from 'react';
-import { FC, useState } from 'react';
+import { FC, useContext, useState } from 'react';
+import { TodoContext } from '../context/TodoContext'
 
-const TodoItem: FC<{ item: string, index: number }> = ({ item, index}) => {
-    const [val, setItem] = useState(item)
+const ADD_ITEM = 'Add Items'
 
-    // tslint:disable-next-line: no-console
-    console.log('key,', index);
-    
+const AddItem: FC<{ }> = ({ }) => {
+    const [val, setItem] = useState('')
+    const { updateTodos } = useContext(TodoContext)
+
     const onChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
         setItem(e.target.value)
     }
 
+    const submitHandler = (e: any) => {
+        // tslint:disable-next-line: no-console
+        console.log('effecting', val);
+        e.preventDefault()
+        updateTodos(val)
+        setItem('')
+    }
+
     return (
-        <div key={index}>
+        <form onSubmit={submitHandler}>
             <Checkbox
                 checked={false}
                 // onChange={handleChange('checkedA')}
@@ -24,13 +33,14 @@ const TodoItem: FC<{ item: string, index: number }> = ({ item, index}) => {
             <TextField
                 value={val}
                 onChange={onChangeHandler}
-                style={{marginTop: 0}}
+                style={{ marginTop: 0 }}
                 // className={classes.textField}
                 margin="normal"
                 // variant="outlined"
-            /> 
-        </div> 
+                placeholder={ADD_ITEM}
+            />
+        </form>
     )
 }
 
-export default TodoItem
+export default AddItem 

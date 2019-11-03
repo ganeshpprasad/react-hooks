@@ -4,18 +4,23 @@ import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
 import SearchIcon from '@material-ui/icons/Search';
 import * as React from 'react';
-import { ChangeEvent, FC } from 'react';
-
-interface ISearchProps {
-    searchTerm: string
-    setTerm: (e: ChangeEvent<HTMLInputElement>) => void
-}
+import { FC, useState } from 'react';
+import { SearchContext } from '../context/SearchContext'
 
 const SEARCH_PLACEHOLDER = 'Search for items'
 
-export const Search: FC<ISearchProps> = ({ searchTerm, setTerm }) => {
+export const Search: FC = () => {
+    const { searchTermChanged } = React.useContext(SearchContext)
+    const { searchTerm, setTerm } = useSearchTerm('')
+
+    const searchHandler = (e: any) => {
+        e.preventDefault()
+        searchTermChanged(searchTerm)
+    }
+
     const styles = useStyles()
     return (
+        <form onSubmit={searchHandler}>
         <Paper className={styles.paper}>
             <InputBase
                 className={styles.textField}
@@ -29,7 +34,8 @@ export const Search: FC<ISearchProps> = ({ searchTerm, setTerm }) => {
             <IconButton aria-label="search">
                 <SearchIcon />
             </IconButton>
-   </Paper> 
+        </Paper>
+        </form> 
 )}
 
 const useStyles = makeStyles(theme => ({
@@ -45,3 +51,13 @@ const useStyles = makeStyles(theme => ({
         paddingLeft: theme.spacing(1)
     } 
 }))
+
+const useSearchTerm = (initialValue: string) => {
+    const [searchTerm, setSearchTerm] = useState(initialValue)
+
+    const setTerm = (e: React.ChangeEvent<HTMLInputElement>): void => {
+        setSearchTerm(e.target.value)
+    }
+
+    return { searchTerm, setTerm }
+}
